@@ -1,6 +1,6 @@
 import React, {useEffect, useContext, useCallback} from 'react'
 import {useHistory} from 'react-router-dom';
-import UserContext from '../../context/UserContext';
+// import {UserContext} from '../../context/UserContext';
 // import { useGlobalSpinnerActionsContext } from '../../context/GlobalSpinnerContext';
 
 
@@ -10,7 +10,7 @@ import {Link} from 'react-router-dom';
 const Home = (props) => {
 
     // const setGlobalSpinner = useGlobalSpinnerActionsContext();
-    const {userData, setUserData} = useContext(UserContext);
+    // const {state} = useContext(UserContext);
     const history = useHistory();
 
 
@@ -52,8 +52,8 @@ const Home = (props) => {
     //     dispatch(deleteOrder(order._id))
     // }
     
-    return userData.user && userData.user.isAdmin === false ? 
-    (
+    // return state.user && state.user.isAdmin === false ? 
+    return(
 
     <div className="mainContainer">
 {/* 
@@ -103,12 +103,13 @@ const Home = (props) => {
         </div> */}
 
         <div>hellooooooo</div>
-        <div>{userData.user.name}</div>
+        {/* <div>{userData.user.name}</div> */}
 
 
     </div>
       
-    ) : (<div>cannot access page</div>)
+    ) 
+    // : (<div>cannot access page</div>)
 }
 
 export default Home;

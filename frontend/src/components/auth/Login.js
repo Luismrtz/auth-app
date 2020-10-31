@@ -1,40 +1,49 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import { useHistory} from 'react-router-dom';
-import UserContext from '../../context/UserContext';
-import Axios from 'axios';
+import {UserContext} from '../../context/UserContext';
+// import Axios from 'axios';
 import ErrorNotice from '../misc/ErrorNotice';
+import {loginUser, logout, clearError} from '../../actions/userActions';
 
-function Login() {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [error, setError] = useState("");
 
-    const {setUserData} = useContext(UserContext);
+function Login(props) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const {state, dispatch} = useContext(UserContext);
+
+
+    
     const history = useHistory();
+    
 
-    const submit = async(e) => {
-        try {
 
-            e.preventDefault();
-            const loginUser = {email, password };
-            const loginRes = await Axios.post("http://localhost:8080/users/login", loginUser);
-            setUserData({
-                token: loginRes.data.token,
-                user: loginRes.data.user
-            });
-            localStorage.setItem("auth-token", loginRes.data.token);
-            history.push("/");
-        } catch(error) {
-            //if not undefined,(aka if true on both sides) then set error
-            error.response.data.msg && setError(error.response.data.msg);
-        }
+
+        const submit = async(e) => {
+        e.preventDefault();
+
+
+		try {
+            let response = await loginUser(dispatch, { email, password });
+           
+			if (response) {
+                props.history.push('/');
+            }
+            return;
+			
+		} catch (error) {
+            console.log(error);
+			// error.response.data.msg && setError(error.response.data.msg);
+		}
+
+
     }
-
+    console.log(state.error);
     return (
         <div className="container">
               <div className="innerWidth">
         <h2>Log in</h2>
-        {error && <ErrorNotice message={error} clearError={() => setError(undefined)} />}
+  
+        {state.error !== null && <ErrorNotice message={state.error} clearError={() => clearError(dispatch)} />}
         <form onSubmit={submit} className="form">
             <label htmlFor="login-email">Email</label>
             <input id="login-email" type="email" onChange={(e) => setEmail(e.target.value)}/>
