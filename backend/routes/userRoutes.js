@@ -35,19 +35,20 @@ router.post("/register", async(req, res) => {
     // same as 'let name = req.body.name;'
     const {email, password, passwordCheck, isAdmin} = req.body;
     let {name} = req.body;
+ 
     try {
         if (!email || !password || !passwordCheck) {
-            return res.status(400).json({msg: "Not all fields have been entered."})
+            return res.status(400).send({msg: "Not all fields have been entered."})
         }
         if (password.length < 5) {
-            return res.status(400).json({msg: "The password needs to be at least 5 characters long."})
+            return res.status(400).send({msg: "The password needs to be at least 5 characters long."})
         }
         if (password !== passwordCheck) {
-            return res.status(400).json({msg: "Password does not match."})
+            return res.status(400).send({msg: "Password does not match."})
         }
         const existingUser = await User.findOne({email: email});
         if(existingUser) {
-            return res.status(400).json({msg: "An account with this email already exists."});
+            return res.status(400).send({msg: "An account with this email already exists."});
         }
         if(!name) {
             name = email;
@@ -59,10 +60,26 @@ router.post("/register", async(req, res) => {
             email,
             password: passwordHash,
             name,
-            isAdmin
+            isAdmin,
+      
         });
         const savedUser = await newUser.save();
-        res.json(savedUser);
+
+        if (savedUser) {
+            res.json({
+          
+                user: {
+                id: savedUser._id,
+                name: savedUser.name,
+                email: savedUser.email,
+                password: savedUser.password,
+                isAdmin: savedUser.isAdmin,
+            
+            },
+            
+            token: getToken(savedUser)
+        })
+        }
     } catch(err) {
         res.status(500).json({error: err.message});
     }
@@ -75,16 +92,16 @@ router.post('/login', async(req, res)=> {
         const { email, password } = req.body;
         //validation
         if(!email || !password) {
-            return res.status(400).json({msg: "Not all fields have been entered"})
+            return res.status(400).send({msg: "Not all fields have been entered"})
         }
         const user = await User.findOne({ email: email});
         if (!user) {
-            return res.status(400).json({msg: "No account with this email has been registered."});
+            return res.status(400).send({msg: "No account with this email has been registered."});
         }
                 //compare the password with the hashString if user has been found
         const isMatch = await bcrypt.compare(password, user.password) 
         if (!isMatch) {
-            return res.status(400).json({msg: "Invalid credentials."})
+            return res.status(400).send({msg: "Invalid credentials."})
         }
 
         
@@ -101,6 +118,9 @@ router.post('/login', async(req, res)=> {
             user: {
             id: user._id,
             name: user.name,
+            email: user.email,
+            password: user.password,
+            isAdmin: user.isAdmin
 
         },
         token: getToken(user)
@@ -113,11 +133,24 @@ router.post('/login', async(req, res)=> {
 });
 
 
-//* delete current user
-router.delete("/:id", auth, async (req, res) => {
+// //* delete current logged-in user
+// router.delete("/:id", auth, async (req, res) => {
+//     try {
+//       //  console.log(req.user);
+//         const deletedUser = await User.findByIdAndDelete(req.user);
+//         res.json(deletedUser)
+//     } catch (err) {
+//         res.status(500).json({ error: err.message });
+//     }
+// });
+
+
+//* delete a selected user
+router.delete("/:id", async (req, res) => {
     try {
       //  console.log(req.user);
-        const deletedUser = await User.findByIdAndDelete(req.user);
+        const deletedUser = await User.findById(req.params.id);
+        await deletedUser.remove();
         res.json(deletedUser)
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -142,6 +175,7 @@ router.delete("/:id", auth, async (req, res) => {
 
 
 //* valid auth/jwt token to verify user/admin is requesting it
+//todo SCRAP THIS
 router.post("/tokenIsValid", async (req, res) => {
     try {
         const token = req.header("x-auth-token");
@@ -165,23 +199,24 @@ router.post("/tokenIsValid", async (req, res) => {
 })
 
 //* get single user
-router.get("/", auth, async (req, res) => {
-try {
-    const user = await User.findById(req.user);
+//todo SCRAP THIS
+// router.get("/", auth, async (req, res) => {
+// try {
+//     const user = await User.findById(req.user);
 
-    res.json({
-        name: user.name,
-        Id: user._id,
-        isAdmin: user.isAdmin,
-        email: user.email
-    });
+//     res.json({
+//         name: user.name,
+//         Id: user._id,
+//         isAdmin: user.isAdmin,
+//         email: user.email
+//     });
  
 
 
-} catch (err) {
-    res.status(500).json({ error: err.message });
-}
-});
+// } catch (err) {
+//     res.status(500).json({ error: err.message });
+// }
+// });
 
 // //* update user info
 // router.put('/:id', auth, async(req, res) => {

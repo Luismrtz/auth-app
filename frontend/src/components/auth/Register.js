@@ -1,21 +1,22 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { useHistory} from 'react-router-dom';
-import UserContext from '../../context/UserContext';
+import {UserContext} from '../../context/UserContext';
 import Axios from 'axios';
 import ErrorNotice from '../misc/ErrorNotice';
+import {register, clearError} from '../../actions/userActions';
 // import { useGlobalSpinnerActionsContext } from '../../context/GlobalSpinnerContext';
 
 
-function Register() {
+function Register(props) {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordCheck, setPasswordCheck] = useState();
     const [isAdmin, setIsAdmin] = useState(false);
-    const [displayName, setDisplayName] = useState();
-    const [error, setError] = useState("");
+    const [name, setDisplayName] = useState();
+    const {state, dispatch} = useContext(UserContext);
+   //const [error, setError] = useState(state.error);
   
     // const setGlobalSpinner = useGlobalSpinnerActionsContext();
-    const {userData, setUserData} = useContext(UserContext);
     const history = useHistory();
 
 
@@ -34,28 +35,21 @@ function Register() {
     const submit = async(e) => {
         e.preventDefault();
         try {
+            let response = await register(dispatch, { email, password, passwordCheck, isAdmin, name });
+            if (response) {
+                props.history.push('/');
+            }
+            
+            
+            return;
 
-        const newUser = {email, password, passwordCheck, isAdmin, name:displayName};
-         await Axios.post("http://localhost:8080/users/register",
-        newUser
-        );
-        const loginRes = await Axios.post("http://localhost:8080/users/login", {
-        email,
-        password
-        });
-        setUserData({
-            token: loginRes.data.token,
-            user: loginRes.data.user
-        });
-        localStorage.setItem("auth-token", loginRes.data.token);
-        history.push("/");
-    } catch(error) {
-        //if not undefined,(aka if true on both sides) then set error
-        // if there is an error, and not just an undefined.  setError to that message as string
-        error.response.data.msg && setError(error.response.data.msg);
-    }
+     } catch(error) {
+         console.log(error)
+
+     }
     
-    }
+     }
+     console.log(state.error)
     return (
         <div className="container">
             <div className="innerWidth">
@@ -63,7 +57,7 @@ function Register() {
             
            <h2>Register</h2>
            {/* //todo if there was an error found from catch, push setState as prop for <ErrorNotice/> */}
-           {error && <ErrorNotice message={error} clearError={() => setError(undefined)} />}
+           {state.error !== null && <ErrorNotice message={state.error} clearError={() =>  clearError(dispatch)} />}
            <form onSubmit={submit} className="form">
                <label htmlFor="register-email">Email</label>
                <input id="register-email" type="email" onChange={(e) => setEmail(e.target.value)}/>
