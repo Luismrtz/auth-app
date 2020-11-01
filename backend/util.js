@@ -58,20 +58,21 @@ const getToken = (user) => {
 const auth = (req, res, next) => {
 let token = req.headers['x-access-token'] || req.headers['authorization']; 
 // Express headers are auto converted to lowercase
+//todo causing ' cannot read property 'startsWith' of undefined'
 if (token.startsWith('Bearer ')) {
   // Remove Bearer from string
   token = token.slice(7, token.length).trimLeft();
 }
 if (token) {
 
-jwt.verify(token, config.secret, (err, decoded) => {
+jwt.verify(token, config.JWT_SECRET, (err, decoded) => {
   if (err) {
     return res.json({
       success: false,
       message: 'Token is not valid'
     });
   } else {
-    req.decoded = decoded;
+    req.user = decoded;
     next();
   }
 });
@@ -87,6 +88,7 @@ jwt.verify(token, config.secret, (err, decoded) => {
 
 
 const isAdmin = (req, res, next) => {
+  console.log(req.user)
     if(req.user && req.user.isAdmin) {
         return next();
     }

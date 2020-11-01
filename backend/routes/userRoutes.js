@@ -144,11 +144,11 @@ router.post('/login', async(req, res)=> {
 //     }
 // });
 
-
+//todo util's auth & isAdmin now functional
 //* delete a selected user
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",auth, isAdmin,  async (req, res) => {
     try {
-      //  console.log(req.user);
+        console.log(req.user);
         const deletedUser = await User.findById(req.params.id);
         await deletedUser.remove();
         res.json(deletedUser)

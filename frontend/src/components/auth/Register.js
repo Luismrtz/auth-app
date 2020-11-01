@@ -57,7 +57,7 @@ function Register(props) {
             
            <h2>Register</h2>
            {/* //todo if there was an error found from catch, push setState as prop for <ErrorNotice/> */}
-           {state.error !== null && <ErrorNotice message={state.error} clearError={() =>  clearError(dispatch)} />}
+           {(state.error !== null && (typeof state.error === 'string')) && <ErrorNotice message={state.error} clearError={() =>  clearError(dispatch)} />}
            <form onSubmit={submit} className="form">
                <label htmlFor="register-email">Email</label>
                <input id="register-email" type="email" onChange={(e) => setEmail(e.target.value)}/>
