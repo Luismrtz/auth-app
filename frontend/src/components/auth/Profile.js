@@ -28,7 +28,10 @@ const Profile = () => {
         
 
         // checkAllUsers()
+        state.user ?
         getUsers(dispatch)
+        : 
+        history.push("/");
     }, [deleteUser])
 
 // useEffect(() => {
@@ -83,15 +86,15 @@ const deleteHandler = (user) => {
 
 
     let usersAll = state.allUserData;
-    console.log(state)
-    //console.log(state.allUserData[0].email)
-    console.log(usersAll)
-    console.log(state.allUserData[1] && state.allUserData[1]._id)
+    // console.log(state)
+    // //console.log(state.allUserData[0].email)
+    // console.log(usersAll)
+    // console.log(state.allUserData[1] && state.allUserData[1]._id)
     let mainUser = state.user;
-  console.log(mainUser);
+//   console.log(mainUser);
 
-  console.log(usersAll[0])
-  console.log(mainUser.id);
+//   console.log(usersAll[0])
+//   console.log(mainUser.id);
 
     // return (
     return mainUser && mainUser ? 
@@ -122,30 +125,13 @@ const deleteHandler = (user) => {
                         {usersAll && usersAll.map((user) => (
                             <tr key={user._id}>
                                 <td>{user._id}</td>
-                                <td>{user.createdAt.substring(0, 10)}</td>
+                                {/* <td>{user.createdAt.substring(0, 10)}</td> */}
                                 <td>{user.email}</td>
                                 <td>{user.name}</td>
                                 <td>{JSON.stringify(user.isAdmin)}</td>
 
                                 <td>
-                                    {/* { mainUser.isAdmin === true? 
-                                        <button type="button" className="button" 
-                                        // onClick={() => {const _id = user._id; deleteUser(dispatch, {_id})}}
-                                        onClick={() => deleteHandler(user)}
-                                        >
-                                            Delete
-                                        </button>
-                                     : user._id === mainUser.Id  ?
-                                    
-                                        <button type="button" className="button" 
-                                        onClick={() => deleteHandler(user)}
-                                        >
-                                            Delete
-                                        </button> 
-                                        :
-                                        <div></div>
-
-                                    } */}
+           
                                      { mainUser.isAdmin === true || (user._id) === mainUser.id ? 
                                         <button type="button" className="button" 
                                         // onClick={() => {const _id = user._id; deleteUser(dispatch, {_id})}}

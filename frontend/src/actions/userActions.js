@@ -145,27 +145,46 @@ async function getUsers(dispatch) {
   }
 
 
+
+  //todo token is called properly, but is not authenticating.  
+  //? problem possibly in util.js 
+   function authHeader() {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    console.log(user);
+    if (user && user.token) {
+      // for Node.js Express back-end
+      return {Authorization: 'Bearer ' + user.token};
+     //return { 'x-access-token': user.token };
+    } else {
+      return {};
+    }
+  }
+
+
 //?Delete
 async function deleteUser(dispatch, {_id}) {
   // const register = ( email, password, passwordCheck, isAdmin, name) => async (dispatch) => {
-    const requestReg = {
+  
+    //console.log(authHeader())
+
+
+  const requestReg = {
       method: 'DELETE',
       // headers: { 'Content-Type': 'application/json' },
       // body: JSON.stringify(loginPayload),
       url: `/users/${_id}`,
-      //headers: { 'x-auth-token': '' },
+      headers: authHeader(),
       data: {_id} // axios takes in data
         // body: JSON.stringify(loginPayload), fetch takes in body
     };  
-  
-  
-  
+ 
     try {
+ 
   dispatch({type: 'USER_DELETE_REQUEST', payload: {_id}});
       let {data} = await Axios( requestReg);
       if (data) {
         dispatch({type: 'USER_DELETE_SUCCESS', payload: _id});
-       localStorage.setItem('currentUser', JSON.stringify(data));
+    //   localStorage.setItem('currentUser', JSON.stringify(data));
         return data;
       }
   

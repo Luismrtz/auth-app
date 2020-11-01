@@ -43,7 +43,7 @@ function Login(props) {
               <div className="innerWidth">
         <h2>Log in</h2>
   
-        {state.error !== null && <ErrorNotice message={state.error} clearError={() => clearError(dispatch)} />}
+        {(state.error !== null && (typeof state.error === 'string')) && <ErrorNotice message={state.error} clearError={() => clearError(dispatch)} />}
         <form onSubmit={submit} className="form">
             <label htmlFor="login-email">Email</label>
             <input id="login-email" type="email" onChange={(e) => setEmail(e.target.value)}/>
