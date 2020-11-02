@@ -145,7 +145,7 @@ router.post('/login', async(req, res)=> {
 // });
 
 //todo util's auth & isAdmin now functional
-//* delete a selected user
+//* delete any selected user if ADMIN
 router.delete("/:id",auth, isAdmin,  async (req, res) => {
     try {
         console.log(req.user);
@@ -156,6 +156,21 @@ router.delete("/:id",auth, isAdmin,  async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+
+//* delete self with auth
+router.delete("/self/:id",auth,  async (req, res) => {
+    try {
+        console.log(req.user);
+        const deletedUser = await User.findById(req.params.id);
+        await deletedUser.remove();
+        res.json(deletedUser)
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
 
 // //* DELETE ALL 
 //   router.delete("/", async (req, res) => {

@@ -1,111 +1,49 @@
-import React, {useEffect, useContext, useCallback} from 'react'
+import React, {useContext} from 'react'
 import {useHistory} from 'react-router-dom';
-// import {UserContext} from '../../context/UserContext';
-// import { useGlobalSpinnerActionsContext } from '../../context/GlobalSpinnerContext';
-
-
 import {Link} from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 
 
 const Home = (props) => {
-
-    // const setGlobalSpinner = useGlobalSpinnerActionsContext();
-    // const {state} = useContext(UserContext);
+    const {state} = useContext(UserContext);
     const history = useHistory();
-
-
-// console.log(userData.user && userData.user.Id)
-
-    // const submit = async(e) => {
-    //     e.preventDefault();
-    //     try {
-
-    //     const newUser = {email, password, passwordCheck, isAdmin, name:displayName};
-    //      await Axios.post("http://localhost:8080/users/register",
-    //     newUser
-    //     );
-    //     const loginRes = await Axios.post("http://localhost:8080/users/login", {
-    //     email,
-    //     password
-    //     });
-    //     setUserData({
-    //         token: loginRes.data.token,
-    //         user: loginRes.data.user
-    //     });
-    //     localStorage.setItem("auth-token", loginRes.data.token);
-    //     history.push("/");
-    // } catch(error) {
-    //     //if not undefined,(aka if true on both sides) then set error
-    //     // if there is an error, and not just an undefined.  setError to that message as string
-    //     error.response.data.msg && setError(error.response.data.msg);
-    // }
-    
-    // }
-
-
-
-
-    //console.log(userData.user.email)
-//   console.log(userInfo)
-
-    // const deleteHandler = (order) => {
-    //     dispatch(deleteOrder(order._id))
-    // }
-    
-    // return state.user && state.user.isAdmin === false ? 
-    return(
-
-    <div className="mainContainer">
-{/* 
-        <div className={styles.content}>
-            <div className={styles.productHeader}>
-                <h3>ORDERS</h3>
+//sandbox for user and admin authentication
+// Log in or register to try it out!
+    // a sandbox for user login/registration with authentication when recognized as current user and/or contains admin privilege.
+    let mainUser = state.user;
+  
+    return mainUser && mainUser ? 
+     (
+        <div className="homeLogInContainer">
+                <div className="titleWrapper">
+                    <h2 className="title">User Profile</h2>
+                </div>
+            <div className="infoWrapper">
+                <ul>
+                    <li>Token:<div className="nowrap"> {state.token.substring(0, 20)} ... {" "}
+                    {state.token.substr(state.token.length - 20)}</div> </li> 
+                    <li>Name: <div className="nowrap">{mainUser.name}</div></li>
+                    <li>Email: <div className="nowrap">{mainUser.email}</div></li>
+                    <li>Authorities:
+                        <ul>
+                        {mainUser.isAdmin ? 
+                        <><li>User</li> <li>Admin</li></> 
+                                :
+                            <li>User</li>
+                        }
+                        </ul>
+                    </li>
+                </ul>
             </div>
-           
-            <div className={styles.productList}>
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>DATE</th>
-                            <th>EMAIL</th>
-                            <th>NAME</th>
-                            <th>ISADMIN</th>         
-                        </tr>
-                    </thead>
+        
+    </div>
+    )
+    :
+    (
 
-                    <tbody>
-                        {orders.map((order) => (
-                            <tr key={order._id}>
-                                <td>{order._id}</td>
-                                <td>{order.createdAt}</td>
-                                <td>{order.totalPrice}</td>
-                                <td>{order.user.name}</td>
-                                <td>{order.isPaid.toString()}</td>
-                                <td>{order.paidAt}</td>
-                                <td>{order.isDelivered.toString()}</td>
-                                <td>{order.deliveredAt}</td>
-                                <td>
-                                    <Link to={"/order/" + order._id} ><button className={cx(styles.button)}>Details</button></Link>
-                                        {' '}
-                                    <button type="button" className={cx(styles.button, styles.secondary)} onClick={() => deleteHandler(order)}>
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-
-
-
-            </div>
-        </div> */}
-
-        <div>hellooooooo</div>
-        {/* <div>{userData.user.name}</div> */}
-
-
+    <div className="homeContainer">
+        <h2>Sandbox for user authentication  </h2>
+        <div className="title2"><Link className="redirect" to="/login">Log in</Link> or <Link className="redirect" to="/register">register</Link> to try it out!</div>
     </div>
       
     ) 

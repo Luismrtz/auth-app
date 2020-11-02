@@ -10,7 +10,7 @@ const AuthOptions = () => {
 
     const register = () => history.push('/register');
     const login = () => history.push('/login');
-    const profile = () => history.push('/profile');
+    const users = () => history.push('/users');
     const logoutBtn = () => {
         // setUserData({
         //     token: undefined,
@@ -35,7 +35,7 @@ const AuthOptions = () => {
             {
                 state.user?
                 <>
-                 <button onClick={profile}>Profile</button>
+                 <button onClick={users}>Users</button>
                  <button onClick={logoutBtn}>Log out</button>  
                 </>
                  : 
