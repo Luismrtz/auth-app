@@ -161,7 +161,7 @@ async function getUsers(dispatch) {
   }
 
 
-//?Delete
+//? Delete any, Admin rights
 async function deleteUser(dispatch, {_id}) {
   // const register = ( email, password, passwordCheck, isAdmin, name) => async (dispatch) => {
   
@@ -197,6 +197,31 @@ async function deleteUser(dispatch, {_id}) {
   }
 
 
+  
+//? Delete self Only, auth rights
+async function deleteSelf(dispatch, {_id}) {
+  const requestReg = {
+      method: 'DELETE',
+      url: `/users/self/${_id}`,
+      headers: authHeader(),
+      data: {_id} // axios takes in data
+    };  
+ 
+    try {
+ 
+  dispatch({type: 'USER_DELETE_REQUEST', payload: {_id}});
+      let {data} = await Axios( requestReg);
+      if (data) {
+        dispatch({type: 'USER_DELETE_SUCCESS', payload: _id});
+        dispatch({type: 'LOGOUT'});
+        return data;
+      }
+  
+    } catch(error) {
+        dispatch({type: 'USER_DELETE_FAIL', payload: error});
+    }
+  }
+
 
 
 
@@ -221,7 +246,7 @@ function clearError(dispatch) {
 }
 
 
-export {loginUser, logout, register, deleteUser, getUsers, clearError}
+export {loginUser, logout, register, deleteUser, deleteSelf, getUsers, clearError}
 
 // export async function getUser(dispatch) {
 

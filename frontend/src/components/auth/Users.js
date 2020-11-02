@@ -1,7 +1,7 @@
-import React, {useEffect, useContext, useCallback, useState} from 'react'
+import React, {useEffect, useContext} from 'react'
 import {useHistory} from 'react-router-dom';
 import {UserContext} from '../../context/UserContext';
-import {getUsers, deleteUser} from '../../actions/userActions';
+import {getUsers, deleteUser, deleteSelf} from '../../actions/userActions';
 // import { useGlobalSpinnerActionsContext } from '../../context/GlobalSpinnerContext';
 
 
@@ -41,11 +41,18 @@ const Profile = () => {
 //     }
 // }, [])
 
-const deleteHandler = (user) => {
+const deleteAnyHandler = (user) => {
     const _id = user._id;
     //dispatch(deleteProduct(user._id))
 
     deleteUser(dispatch, {_id})
+   
+}
+const deleteSelfHandler = (user) => {
+    const _id = user._id;
+    //dispatch(deleteProduct(user._id))
+
+    deleteSelf(dispatch, {_id})
    
 }
 
@@ -77,10 +84,7 @@ const deleteHandler = (user) => {
 
 
 
-    //todo: TOMORROW 10/31
-        //* implement ADMIN ONLY for deletes
-        //* implement maybe another api + dispatch for USER(auth) ONLY delete call
-        //* implement ROUTES access via AUTH or ADMIN (ex. cannot access profile unless AUTH or ADMIN/ signed in)
+    //todo: TOMORROW 11/1
         //* fix CSS
         //* 
 
@@ -101,22 +105,21 @@ const deleteHandler = (user) => {
     (
 
     <div className="mainContainer">
-
-        <div className="content">
-            <div className="productHeader">
-                <h3>ALL USERS</h3>
+   <div className="titleWrapper">
+                    <h2 className="title">All Users</h2>
             </div>
+        <div className="content">
+         
            
             <div className="productList">
                 <table className="table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>CreatedAt</th>
+                            <th>CREATED</th>
                             <th>EMAIL</th>
                             <th>NAME</th>
                             <th>ISADMIN</th>    
-                            
                             <th>Delete</th>     
                         </tr>
                     </thead>
@@ -125,20 +128,29 @@ const deleteHandler = (user) => {
                         {usersAll && usersAll.map((user) => (
                             <tr key={user._id}>
                                 <td>{user._id}</td>
-                                {/* <td>{user.createdAt.substring(0, 10)}</td> */}
+                                <td>{user.createdAt.substring(0, 10)}</td>
                                 <td>{user.email}</td>
                                 <td>{user.name}</td>
                                 <td>{JSON.stringify(user.isAdmin)}</td>
 
                                 <td>
            
-                                     { mainUser.isAdmin === true || (user._id) === mainUser.id ? 
+                                     { mainUser.isAdmin === true ? 
                                         <button type="button" className="button" 
                                         // onClick={() => {const _id = user._id; deleteUser(dispatch, {_id})}}
-                                        onClick={() => deleteHandler(user)}
+                                        onClick={() => deleteAnyHandler(user)}
                                         >
                                             Delete
                                         </button>
+
+                                          :  (user._id) === mainUser.id ? 
+                                        <button type="button" className="button" 
+                                        // onClick={() => {const _id = user._id; deleteUser(dispatch, {_id})}}
+                                        onClick={() => deleteSelfHandler(user)}
+                                        >
+                                            Delete
+                                        </button>
+
                                         :
                                         <div></div>
 
@@ -153,10 +165,6 @@ const deleteHandler = (user) => {
 
             </div>
         </div>
-
-        <div>PROFILE PAGE</div>
-        {/* <div>{userData.user.name}</div> */}
-
 
     </div>
       

@@ -5,7 +5,7 @@ import Header from "./components/layout/Header";
 import Home from "./components/pages/Home";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import Profile from "./components/auth/Profile";
+import Users from "./components/auth/Users";
 
 import "./style.css";
 
@@ -55,7 +55,7 @@ return (
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route path="/profile" component={Profile} />
+            <Route path="/users" component={Users} />
           </Switch>
         </div>
    
