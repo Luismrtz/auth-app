@@ -69,7 +69,7 @@ jwt.verify(token, config.JWT_SECRET, (err, decoded) => {
   if (err) {
     return res.json({
       success: false,
-      message: 'Token is not valid'
+      msg: 'Token is not valid'
     });
   } else {
     req.user = decoded;

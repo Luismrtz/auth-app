@@ -146,8 +146,7 @@ async function getUsers(dispatch) {
 
 
 
-  //todo token is called properly, but is not authenticating.  
-  //? problem possibly in util.js 
+  //? it works now
    function authHeader() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     console.log(user);
