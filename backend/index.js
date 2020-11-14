@@ -3,8 +3,9 @@ import config from './config';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import userRoute from './routes/userRoutes';
+import "regenerator-runtime/runtime.js";
 // import todoRoute from './routes/todoRoutes';
-
+const path = require('path');
 const cors = require("cors");
 
 //express
@@ -29,6 +30,9 @@ mongoose.connect( mongoUri, {
 });
 
 app.use('/users', userRoute);
-// app.use('/todos', todoRoute);
 
+app.use(express.static(path.join(__dirname, '/../frontend/build')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/../frontend/build/index.html'));
+});
 app.listen(config.PORT, () => {console.log(`server started at port: ${config.PORT}`)});
