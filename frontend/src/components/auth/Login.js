@@ -1,20 +1,14 @@
-import React, {useState, useContext, useEffect} from 'react';
-import { useHistory} from 'react-router-dom';
+import React, {useState, useContext} from 'react';
 import {UserContext} from '../../context/UserContext';
 // import Axios from 'axios';
 import ErrorNotice from '../misc/ErrorNotice';
-import {loginUser, logout, clearError} from '../../actions/userActions';
+import {loginUser, clearError} from '../../actions/userActions';
 
 
 function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const {state, dispatch} = useContext(UserContext);
-
-
-    
-    const history = useHistory();
-    
 
 
 
@@ -37,10 +31,9 @@ function Login(props) {
 
 
     }
-    console.log(state.error);
     return (
         <div className="container">
-              <div className="innerWidth">
+         <div className="innerWidth">
         <h2>Log in</h2>
   
         {(state.error !== null && (typeof state.error === 'string')) && <ErrorNotice message={state.error} clearError={() => clearError(dispatch)} />}
@@ -53,6 +46,29 @@ function Login(props) {
 
             <input type="submit" value="Login" />
         </form>
+                <h4>
+                    Try one of these test accounts
+                </h4>
+            <ul>
+                <li> Email: <div className="nowrap">
+                     admin@gmail.com
+                    </div>
+                </li>
+                <li>Password: <div className="nowrap">
+                     admin
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>Email: <div className="nowrap">
+                     guest@gmail.com
+                    </div>
+                </li>
+                <li>Password: <div className="nowrap">
+                     guest
+                    </div>
+                </li>
+            </ul>
         </div>
      </div>
     )

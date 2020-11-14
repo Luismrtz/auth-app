@@ -1,10 +1,7 @@
-import React, {useState, useContext, useEffect} from 'react';
-import { useHistory} from 'react-router-dom';
+import React, {useState, useContext} from 'react';
 import {UserContext} from '../../context/UserContext';
-import Axios from 'axios';
 import ErrorNotice from '../misc/ErrorNotice';
 import {register, clearError} from '../../actions/userActions';
-// import { useGlobalSpinnerActionsContext } from '../../context/GlobalSpinnerContext';
 
 
 function Register(props) {
@@ -14,21 +11,6 @@ function Register(props) {
     const [isAdmin, setIsAdmin] = useState(false);
     const [name, setDisplayName] = useState();
     const {state, dispatch} = useContext(UserContext);
-   //const [error, setError] = useState(state.error);
-  
-    // const setGlobalSpinner = useGlobalSpinnerActionsContext();
-    const history = useHistory();
-
-
-    // useEffect(() => {
-    //     (async () => {
-    //      setGlobalSpinner(false)
-
-    //      setGlobalSpinner(false)
-    //     })()
-
-    // }, [setGlobalSpinner])
-
 
 
 
@@ -49,7 +31,6 @@ function Register(props) {
      }
     
      }
-     console.log(state.error)
     return (
         <div className="container">
             <div className="innerWidth">

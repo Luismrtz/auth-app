@@ -173,6 +173,32 @@ body {
 }
 
 
+/* //? login text */
+.container .innerWidth .nowrap {
+  display: inline-block;
+  font-weight: 400;
+}
+
+
+.container .innerWidth h4 {
+  margin-top: 4rem;
+}
+
+.container .innerWidth ul > li {
+  list-style: inside;
+  font-weight: bold;
+  padding-top: 1.5rem;
+  color: var(--font-color);
+}
+
+.container .innerWidth ul > li:nth-child(1) {
+  padding-top: 4rem;
+
+}
+
+
+
+
 
 /* //? form */
 
@@ -224,19 +250,27 @@ body {
 .content {
 
   max-width: 120rem;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: center; */
   margin:6rem auto 0 auto;
   padding: 0 2rem;
 }
 
 
-.content .productList .table{
-  display: table-header-group;
+.content .productList {
+  overflow-x: auto;
+  min-height: 50vh;
+  margin-top: 6rem;
+}
 
+.content .productList .table{
+  /* display: table-header-group; */
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
 }
 
 
@@ -244,18 +278,17 @@ body {
 
 
 .content .productList .table thead tr th{
-  text-transform: uppercase;
-  text-align: center;
+  /* text-transform: uppercase;
+  text-align: center; */
+  font-size: 1.1rem;
+  text-align: left;
 }  
 
-
-
-
-.content .productList .table tr td{
-padding: 0rem .4rem 0rem 0;
- 
-min-width: 5rem;
-}  
+.content .productList .table tr td,
+.content .productList .table tr th {
+  border: 0.1rem solid #dbdbdb;
+  padding: 0.5rem;
+}
 
 
 .content .productList .table tbody > tr:nth-child(odd) {
@@ -263,9 +296,11 @@ min-width: 5rem;
 }  
 
 .content .productList .table tbody tr > td:last-child {
-  height: 2rem;
-  background-color: var(--mainWhite);
+  /* height: 2rem;
+  background-color: var(--mainWhite); */
+  padding: 0;
 }
+
 .button {
   height: 2rem;
   width: 100%;     
@@ -312,30 +347,3 @@ min-width: 5rem;
   color:var(--white);
 }
 
-
-
-/* //! Media queries */
-/* 870px */
-/* @media (max-width: 37.5rem) { */
-  @media (max-width: 54.375rem) {
-  .content .productList .table{
-    display: block;
-    width: 31rem;
-    overflow-x: auto;
-
-  }
-}
-/* 600px */
-@media (max-width: 37.5rem) {
-/* @media (max-width : 28.75rem) { */
-  .content .productList .table{
-    width: 25rem;
-  }
-}
-
-/* 460px */
-@media (max-width : 28.75rem) {
-  .content .productList .table{
-    width: 13rem;
-  }
-}

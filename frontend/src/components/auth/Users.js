@@ -2,105 +2,43 @@ import React, {useEffect, useContext} from 'react'
 import {useHistory} from 'react-router-dom';
 import {UserContext} from '../../context/UserContext';
 import {getUsers, deleteUser, deleteSelf} from '../../actions/userActions';
-// import { useGlobalSpinnerActionsContext } from '../../context/GlobalSpinnerContext';
-
-
-import {Link} from 'react-router-dom';
-import Axios from 'axios';
 
 
 const Profile = () => {
     const {state, dispatch} = useContext(UserContext);
-    // const setGlobalSpinner = useGlobalSpinnerActionsContext();
-    // const {userData, setUserData} = useContext(UserContext);
-   // const [userDataAll, setUserDataAll] = useState([])
+
     const history = useHistory();
 
     useEffect(() => {
 
-        //todo TURN THIS INTO A DISPATCH(CALL THIS FROM THAT dispatch ACTION js)
-        // const checkAllUsers = async () => {
-
-        //         const userRes = await Axios.get("/users/all");
-        //     setUserDataAll(userRes);
-        //     }
-        //     getUsers(dispatch)
-        
-
-        // checkAllUsers()
-        state.user ?
+        if(!state.user) {
+            history.push("/");
+        } 
         getUsers(dispatch)
-        : 
-        history.push("/");
-    }, [deleteUser])
+    
 
-// useEffect(() => {
-//     getUser(dispatch)
-//     return () => {
-        
-//     }
-// }, [])
+    }, [state.user, dispatch, history])
+
+
 
 const deleteAnyHandler = (user) => {
     const _id = user._id;
-    //dispatch(deleteProduct(user._id))
 
     deleteUser(dispatch, {_id})
    
 }
 const deleteSelfHandler = (user) => {
     const _id = user._id;
-    //dispatch(deleteProduct(user._id))
 
     deleteSelf(dispatch, {_id})
    
 }
 
 
-
-
-
-   //todo TURN THIS INTO A DISPATCH(CALL THIS FROM THAT dispatch ACTION js)
-    // const deleteHandler = async(user) => {
-    //     // let token = localStorage.getItem("auth-token");
-    //     // if(token === null) {
-    //     //     localStorage.setItem("auth-token", "");
-    //     //     token = "";
-    //     // }
-        
-    //     //  const tokenRes = await Axios.post("http://localhost:8080/users/tokenIsValid", 
-    //     //  null, 
-    //     //  { headers: {"x-auth-token": token}
-    //     //      }
-    //     //  );
-        
-
-    //    await Axios.delete("http://localhost:8080/users/" + user._id)
-                
-                
- 
-    // }
-
-
-
-
-    //todo: TOMORROW 11/1
-        //* fix CSS
-        //* 
-
-
     let usersAll = state.allUserData;
-    // console.log(state)
-    // //console.log(state.allUserData[0].email)
-    // console.log(usersAll)
-    // console.log(state.allUserData[1] && state.allUserData[1]._id)
+   
     let mainUser = state.user;
-//   console.log(mainUser);
 
-//   console.log(usersAll[0])
-//   console.log(mainUser.id);
-
-    // return (
     return mainUser && mainUser ? 
     (
 
@@ -133,7 +71,7 @@ const deleteSelfHandler = (user) => {
                                 <td>{user.name}</td>
                                 <td>{JSON.stringify(user.isAdmin)}</td>
 
-                                <td>
+                                <td className="btnwrap">
            
                                      { mainUser.isAdmin === true ? 
                                         <button type="button" className="button" 

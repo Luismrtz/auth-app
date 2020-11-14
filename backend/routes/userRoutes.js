@@ -133,22 +133,11 @@ router.post('/login', async(req, res)=> {
 });
 
 
-// //* delete current logged-in user
-// router.delete("/:id", auth, async (req, res) => {
-//     try {
-//       //  console.log(req.user);
-//         const deletedUser = await User.findByIdAndDelete(req.user);
-//         res.json(deletedUser)
-//     } catch (err) {
-//         res.status(500).json({ error: err.message });
-//     }
-// });
 
 //todo util's auth & isAdmin now functional
 //* delete any selected user if ADMIN
 router.delete("/:id",auth, isAdmin,  async (req, res) => {
     try {
-        console.log(req.user);
         const deletedUser = await User.findById(req.params.id);
         await deletedUser.remove();
         res.json(deletedUser)
@@ -161,7 +150,6 @@ router.delete("/:id",auth, isAdmin,  async (req, res) => {
 //* delete self with auth
 router.delete("/self/:id",auth,  async (req, res) => {
     try {
-        console.log(req.user);
         const deletedUser = await User.findById(req.params.id);
         await deletedUser.remove();
         res.json(deletedUser)
@@ -205,7 +193,6 @@ router.post("/tokenIsValid", async (req, res) => {
         if (!user) {
             return res.json(false);
         }
-        //console.log(verfied._id)
         return res.json(true);
 
     } catch (err) {
@@ -213,139 +200,7 @@ router.post("/tokenIsValid", async (req, res) => {
     }
 })
 
-//* get single user
-//todo SCRAP THIS
-// router.get("/", auth, async (req, res) => {
-// try {
-//     const user = await User.findById(req.user);
 
-//     res.json({
-//         name: user.name,
-//         Id: user._id,
-//         isAdmin: user.isAdmin,
-//         email: user.email
-//     });
- 
-
-
-// } catch (err) {
-//     res.status(500).json({ error: err.message });
-// }
-// });
-
-// //* update user info
-// router.put('/:id', auth, async(req, res) => {
-//     try {
-//         const userId = req.params.id;
-//         const user = await User.findById(userId);
-//         // const salt = await bcrypt.genSalt();
-//         // const passwordHash = await bcrypt.hash(user.password, salt);
-//         if (user) {
-//             // const {email, password, passwordCheck} = req.body;
-//             // let {name} = req.body;
-
-
-
-//             user.name = req.body.name || user.name;
-//             user.email = req.body.email || user.email;
-//             user.password = req.body.password || user.password;
-//             user.isAdmin = req.body.isAdmin || user.isAdmin;
-
-
-
-
-//             const updatedUser = await user.save();
-//             res.send({
-//                 _id: updatedUser.id,
-//                 name: updatedUser.name,
-//                 email: updatedUser.email,
-//                 isAdmin: updatedUser.isAdmin,
-//                 token: getToken(updatedUser),
-//             });
-
-//         }
-//     } catch(error) {
-//         res.status(404).send({msg: 'User Not Found'});
-//     }
-// });
-
-
-//* post a new user
-// router.put("/:id", auth, async(req, res) => {
-//     // const {email, password, passwordCheck} = req.body;
-//     // let {name} = req.body;
-//     try {
-
-//         const userId = req.params.id;
-//         const user = await User.findById(userId);
-
-//         // if (!email || !password || !passwordCheck) {
-//         //     return res.status(400).json({msg: "Not all fields have been entered."})
-//         // }
-//         // if (password.length < 5) {
-//         //     return res.status(400).json({msg: "The password needs to be at least 5 characters long."})
-//         // }
-//         // if (password !== passwordCheck) {
-//         //     return res.status(400).json({msg: "Password does not match."})
-//         // }
-//         // const existingUser = await User.findOne({email: email});
-//         // if(existingUser) {
-//         //     return res.status(400).json({msg: "An account with this email already exists."});
-//         // }
-
-//         if(user) {
-
-//             // if(!name) {
-//             //     name = email;
-//             // }
-//             const salt = await bcrypt.genSalt();
-//             const passwordHash = await bcrypt.hash(req.body.password, salt);
-
-            
-//             user.name = req.body.name || user.name;
-//             user.email = req.body.email || user.email;
-//             user.password = passwordHash || user.password;
-//             user.isAdmin = req.body.isAdmin || user.isAdmin;
-    
-//             // const newUser = new User({
-//             //     email,
-//             //     password: passwordHash,
-//             //     isAdmin,
-//             //     name,
-//             // });
-//             const savedUser = await user.save();
-//             res.json(savedUser);
-//         }
-//     } catch(err) {
-//         res.status(500).json({error: err.message});
-//     }
-// });
-
-
-// //? update revised
-// router.patch('/update/:id', async(req,res) => {
-
-
-//     try {
-//         const salt = await bcrypt.genSalt();
-//         const passwordHash = await bcrypt.hash(password, salt);
-    
-    
-//         // const salt = await bcrypt.genSalt();
-//         // const passwordHash = await bcrypt.hash(req.body.password, salt);
-        
-//         const user = await User.updateOne(
-//             {_id: req.params.id},
-//            {$set: req.body
-//             },
-//             {password: passwordHash}
-//         )
-//         res.json(user);
-//     } catch (err) {
-//         res.json({ message: err})
-//     }
-
-// });
 
 
 export default router;
