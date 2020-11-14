@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import userRoute from './routes/userRoutes';
 import "regenerator-runtime/runtime.js";
 // import todoRoute from './routes/todoRoutes';
-
+const path = require('path');
 const cors = require("cors");
 
 //express
