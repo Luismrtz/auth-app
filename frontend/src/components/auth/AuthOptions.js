@@ -12,23 +12,12 @@ const AuthOptions = () => {
     const login = () => history.push('/login');
     const users = () => history.push('/users');
     const logoutBtn = () => {
-        // setUserData({
-        //     token: undefined,
-        //     user: undefined
-        // });
-        // localStorage.setItem("auth-token", "");
-        // history.push("/login")
-       // console.log('poop');
-      //  e.preventDefault();
+
          logout(dispatch);
-        // history.push('/login');
-        // console.log(logout(dispatch))
+
         history.push('/login');
     }
 
-
-
-    console.log(state);
 
     return  (
         <nav className="authOptions">
@@ -45,11 +34,6 @@ const AuthOptions = () => {
                 </>
             }
 
-
-                 {/* <button onClick={register}>Register</button>
-                 <button onClick={login}>Log in</button>
-           
-             */}
         
         </nav>
     )

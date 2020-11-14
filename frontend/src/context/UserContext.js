@@ -1,15 +1,7 @@
 import React, {createContext, useReducer} from 'react';
 // import {addUser, deleteUser} from '../actions/userActions'
 import userReducer from '../reducer/userReducer';
-//import userAction from '../actions/userActions';
 
-
-
-//?initial state
-// const [userData, setUserData] = useState({
-//     token: undefined,
-//     user: undefined,
-//   }); 
 
 let user = localStorage.getItem("currentUser") 
   ? JSON.parse(localStorage.getItem("currentUser")).user : "";
@@ -18,11 +10,6 @@ let token = localStorage.getItem("currentUser")
   ? JSON.parse(localStorage.getItem("currentUser")).token : "";
 
 
-
-  // let allUserData = JSON.parse(localStorage.getItem("allUsers"));
-//................................................. or ).auth_token?
-
- console.log(JSON.parse(localStorage.getItem("currentUser")))
 
 const initialState = {
    allUserData: [],

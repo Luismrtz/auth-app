@@ -1,12 +1,10 @@
 import React, {useContext} from 'react'
-import {useHistory} from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 
 const Home = (props) => {
     const {state} = useContext(UserContext);
-    const history = useHistory();
 //sandbox for user and admin authentication
 // Log in or register to try it out!
     // a sandbox for user login/registration with authentication when recognized as current user and/or contains admin privilege.
