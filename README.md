@@ -1,5 +1,5 @@
 # Authentication
->React / Redux / css3 / MongoDB / Express / Heroku
+>React / Redux / css3 / MongoDB / Express / Heroku <br />
 A website for testing user authentication.
 
 
